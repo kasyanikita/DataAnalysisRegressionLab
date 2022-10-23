@@ -1,6 +1,9 @@
 # -*- coding: utf-8 -*-
 import click
 import logging
+import os
+import sys
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.dirname(__file__))))
 from pathlib import Path
 from dotenv import find_dotenv, load_dotenv
 from src.utils import save_as_pickle

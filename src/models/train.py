@@ -1,6 +1,6 @@
-import category_encoders as ce
 from sklearn.utils.fixes import sklearn
 import src.config as cfg
+from src.utils import get_params
 from sklearn.compose import ColumnTransformer
 from sklearn.impute import SimpleImputer
 from sklearn.pipeline import Pipeline
@@ -36,8 +36,10 @@ sklearn_model = Pipeline([
     ]
 )
 
+params = get_params()
+
 catboost = CatBoostRegressor(iterations=50, cat_features=cfg.CAT_COLS, random_seed=cfg.RS)
 
 estimators = [('lr', sklearn_model ), ('cat', catboost)]
 
-stack = StackingRegressor(estimators, final_estimator=RandomForestRegressor(n_estimators=10, random_state=42))
+stack = StackingRegressor(estimators, final_estimator=RandomForestRegressor(n_estimators=params['n_estimators'], random_state=42))

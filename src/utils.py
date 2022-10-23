@@ -1,6 +1,14 @@
 import pickle
-from typing import Any, Union
+from ruamel.yaml import YAML
+from typing import Any
 from pandas import DataFrame
+
+
+def get_params() -> dict:
+    yaml = YAML(typ="safe")
+    with open("params.yaml") as f:
+        params = yaml.load(f)
+    return params
 
 
 def save_as_pickle(obj: Any, path: str) -> None:

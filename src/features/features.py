@@ -30,6 +30,7 @@ def add_garage_qual_ord(df : pd.DataFrame) -> pd.DataFrame:
 def add_util_ord(df : pd.DataFrame) -> pd.DataFrame:
     utilities = {'ELO': 1, 'NoSeWa': 2, 'NoSewr': 3,'AllPub': 4}
     df['UtilsOrd'] = df['Utilities'].astype('string').map(utilities)
+    df['UtilsOrd'] = df['UtilsOrd'].fillna(0)
     df['UtilsOrd'] =  df['UtilsOrd'].astype(np.int8)
     return df
 

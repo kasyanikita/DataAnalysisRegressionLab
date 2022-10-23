@@ -3,8 +3,11 @@ import logging
 from pathlib import Path
 
 import click
+import os
+import sys
 from dotenv import find_dotenv, load_dotenv
-from sklearn.metrics import f1_score
+from sklearn.metrics import r2_score, mean_squared_error, mean_absolute_error
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.dirname(__file__))))
 from src.utils import load_pickle
 import json
 
@@ -21,9 +24,11 @@ def main(input_pred_filepath, input_true_filepath, out_metrics_filepath):
     pred = load_pickle(input_pred_filepath)
     true = load_pickle(input_true_filepath)
 
-    metrics = {'f1_score_samples': f1_score(true, pred, average='samples', zero_division=0)}
+    metrics = {'R2': r2_score(true, pred),
+               'MSE': mean_squared_error(true, pred),
+               'MAE': mean_absolute_error(true, pred)}
     with open(out_metrics_filepath, "w") as f:
-        json.dump(metrics, f)
+        json.dump(metrics, f, indent=4)
 
 
 if __name__ == '__main__':

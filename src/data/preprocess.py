@@ -32,11 +32,18 @@ def fill_cat_na(df: pd.DataFrame) -> pd.DataFrame:
     for cat in cfg.CAT_COLS:
         df[cat] = df[cat].fillna('')
     return df
+
+
+def fill_int_na(df: pd.DataFrame) -> pd.DataFrame:
+    for col in cfg.INT_COLS:
+        df[col] = df[col].fillna(0)
+    return df
     
 
 def preprocess_data(df: pd.DataFrame) -> pd.DataFrame:
     df = set_idx(df, cfg.ID_COL)
     df = drop_cols(df, cfg.UNNECESSARY_COLS)
+    df = fill_int_na(df)
     df = cast_types(df)
     df = fill_cat_na(df)
     return df

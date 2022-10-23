@@ -1,9 +1,12 @@
 # -*- coding: utf-8 -*-
 import click
+import sys
+import os
 import logging
 from pathlib import Path
 from dotenv import find_dotenv, load_dotenv
 from sklearn.model_selection import train_test_split
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.dirname(__file__))))
 from src.utils import save_as_pickle
 from preprocess import preprocess_data, preprocess_target, extract_target
 from src.config import RS

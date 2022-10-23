@@ -1,9 +1,12 @@
 # -*- coding: utf-8 -*-
 import click
 import logging
+import sys
+import os
 from pathlib import Path
 from dotenv import find_dotenv, load_dotenv
 from sklearn.model_selection import GridSearchCV
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.dirname(__file__))))
 from src.utils import load_pickle, save_as_pickle
 import pandas as pd
 
