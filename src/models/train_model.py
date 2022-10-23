@@ -6,6 +6,7 @@ from dotenv import find_dotenv, load_dotenv
 from sklearn.model_selection import GridSearchCV
 from src.utils import save_as_pickle
 import pandas as pd
+from train import stack
 
 
 @click.command()
@@ -20,9 +21,7 @@ def main(input_train_data_filepath, input_train_target_filepath, output_model_fi
     train = pd.read_pickle(input_train_data_filepath)
     target = pd.read_pickle(input_train_target_filepath)
 
-    ######
-    
-
+    model = stack.fit(train, target)
 
     save_as_pickle(model, output_model_filepath)
 

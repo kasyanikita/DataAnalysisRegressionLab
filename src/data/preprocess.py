@@ -15,16 +15,22 @@ def drop_cols(df : pd.DataFrame, cols : list) -> pd.DataFrame:
 
 
 def cast_types(df: pd.DataFrame) -> pd.DataFrame:
-    df[cfg.CAT_COLS] = df[cfg.CAT_COLS].astype('category')
+    df[cfg.CAT_COLS] = df[cfg.CAT_COLS].astype('string')
 
     df[cfg.INT_COLS] = df[cfg.INT_COLS].astype(np.int64)
 
     df[cfg.REAL_COLS] = df[cfg.REAL_COLS].astype(np.float64)
+
     return df
 
 
 def set_idx(df: pd.DataFrame, idx_col: str) -> pd.DataFrame:
     df = df.set_index(idx_col)
+    return df
+
+def fill_cat_na(df: pd.DataFrame) -> pd.DataFrame:
+    for cat in cfg.CAT_COLS:
+        df[cat] = df[cat].fillna('')
     return df
     
 
@@ -32,6 +38,7 @@ def preprocess_data(df: pd.DataFrame) -> pd.DataFrame:
     df = set_idx(df, cfg.ID_COL)
     df = drop_cols(df, cfg.UNNECESSARY_COLS)
     df = cast_types(df)
+    df = fill_cat_na(df)
     return df
 
 

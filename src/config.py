@@ -16,6 +16,7 @@ INT_COLS = ['MSSubClass', 'LotArea', 'OverallQual', 'OverallCond', 'YearBuilt', 
 'BsmtHalfBath', 'FullBath', 'HalfBath', 'BedroomAbvGr', 'KitchenAbvGr', 'TotRmsAbvGrd', 'Fireplaces', 'GarageCars', 
 'GarageArea', 'WoodDeckSF', 'OpenPorchSF', 'EnclosedPorch', '3SsnPorch', 'ScreenPorch', 'PoolArea', 'MiscVal', 'MoSold', 'YrSold']
 UNNECESSARY_COLS = ['Alley', 'PoolQC', 'Fence', 'MiscFeature']
-
+NEW_COLS = ['GarageQualOrd', 'UtilsOrd']
+NEW_OHE = ['GarageAvail']
 # RANDOM STATE
 RS = 42
