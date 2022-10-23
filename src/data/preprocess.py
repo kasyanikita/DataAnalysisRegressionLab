@@ -1,29 +1,25 @@
 import pandas as pd
 import numpy as np
-import src.config as cfg
-from src.config import TARGET_COLS
+import sys
+import os
 from typing import Tuple
 
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.dirname(__file__))))
+import src.config as cfg
 
-def drop_unnecesary_id(df: pd.DataFrame) -> pd.DataFrame:
-    if 'ID_y' in df.columns:
-        df = df.drop('ID_y', axis=1)
-    return df
-
-
-def fill_sex(df: pd.DataFrame) -> pd.DataFrame:
-    most_freq = df[cfg.SEX_COL].value_counts().index[0]
-    df[cfg.SEX_COL] = df[cfg.SEX_COL].fillna(most_freq)
+def drop_cols(df : pd.DataFrame, cols : list) -> pd.DataFrame:
+    for col in cols:
+        if col in df.columns:
+           df =  df.drop(col, axis=1)
     return df
 
 
 def cast_types(df: pd.DataFrame) -> pd.DataFrame:
     df[cfg.CAT_COLS] = df[cfg.CAT_COLS].astype('category')
 
-    ohe_int_cols = df[cfg.OHE_COLS].select_dtypes('number').columns
-    df[ohe_int_cols] = df[ohe_int_cols].astype(np.int8)
+    df[cfg.INT_COLS] = df[cfg.INT_COLS].astype(np.int64)
 
-    df[cfg.REAL_COLS] = df[cfg.REAL_COLS].astype(np.float32)
+    df[cfg.REAL_COLS] = df[cfg.REAL_COLS].astype(np.float64)
     return df
 
 
@@ -34,17 +30,16 @@ def set_idx(df: pd.DataFrame, idx_col: str) -> pd.DataFrame:
 
 def preprocess_data(df: pd.DataFrame) -> pd.DataFrame:
     df = set_idx(df, cfg.ID_COL)
-    df = drop_unnecesary_id(df)
-    df = fill_sex(df)
+    df = drop_cols(df, cfg.UNNECESSARY_COLS)
     df = cast_types(df)
     return df
 
 
 def preprocess_target(df: pd.DataFrame) -> pd.DataFrame:
-    df[cfg.TARGET_COLS] = df[cfg.TARGET_COLS].astype(np.int8)
+    df = df.astype(np.int64)
     return df
 
 
 def extract_target(df: pd.DataFrame) -> Tuple[pd.DataFrame, pd.DataFrame]:
-    df, target = df.drop(cfg.TARGET_COLS, axis=1), df[TARGET_COLS].copy()
+    df, target = df.drop(cfg.TARGET_COL, axis=1), df[cfg.TARGET_COL].copy()
     return df, target
