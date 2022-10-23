@@ -79,7 +79,7 @@ stages:
     - metrics.json:
         cache: true
   
-  predict_test_sklearn_model:
+  predict_test_model:
     cmd: python src/models/predict_model.py data/processed/test.pkl models/model.pkl predictions/test_predict.pkl
     deps:
     - data/processed/test.pkl
