@@ -5,7 +5,7 @@ from pathlib import Path
 from dotenv import find_dotenv, load_dotenv
 from src.utils import save_as_pickle
 import pandas as pd
-from features import add_early_wakeup
+from features import feature_gen
 
 
 @click.command()
@@ -24,6 +24,8 @@ def main(
     logger.info('making final data set from interim data')
 
     df = pd.read_pickle(input_filepath)
+    df = feature_gen(df)
+
     save_as_pickle(df, output_filepath)
 
 
